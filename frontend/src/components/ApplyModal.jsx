@@ -25,7 +25,6 @@ const ApplyModal = ({ post, isOpen, onClose, onSubmit }) => {
     };
   }, [isOpen, onClose]);
 
-  // Handle escape key
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -57,9 +56,9 @@ const ApplyModal = ({ post, isOpen, onClose, onSubmit }) => {
       await onSubmit(post.id, message);
       setMessage('');
       onClose();
-    // eslint-disable-next-line no-unused-vars
     } catch (err) {
       toast.error('Application failed');
+      console.log(err)
     } finally {
       setLoading(false);
     }

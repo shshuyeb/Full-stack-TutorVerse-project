@@ -10,12 +10,11 @@ const PostManagementPage = () => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState('pending'); 
-  // Modal states - Approval এবং Delete এর জন্য separate modals
   const [approveModal, setApproveModal] = useState({
     open: false,
     postId: null,
     postTitle: '',
-    status: '' // 'approved' or 'rejected'
+    status: ''
   });
 
   const [deleteModal, setDeleteModal] = useState({
@@ -24,14 +23,13 @@ const PostManagementPage = () => {
     postTitle: ''
   });
 
-  // Image viewer modal - Student ID card দেখার জন্য
   const [imageModal, setImageModal] = useState({
     open: false,
     imageUrl: '',
     studentName: ''
   });
 
-  // Admin check এবং posts fetch
+  // Admin check and posts fetch
   useEffect(() => {
     const checkAdminAndFetch = async () => {
       try {
@@ -51,7 +49,6 @@ const PostManagementPage = () => {
           return;
         }
 
-        // Fetch posts directly inside useEffect
         fetchPostsData();
       } catch (error) {
         console.error('Check error:', error);
@@ -59,7 +56,6 @@ const PostManagementPage = () => {
       }
     };
 
-    // Fetch posts function inside useEffect
     const fetchPostsData = async () => {
       try {
         const url = filter === 'all'
@@ -81,9 +77,9 @@ const PostManagementPage = () => {
     };
 
     checkAdminAndFetch();
-  }, [navigate, filter]); // navigate এবং filter dependency ঠিক আছে
+  }, [navigate, filter]); 
 
-  // Fetch posts function for re-fetching after approval/delete
+ 
   const fetchPosts = async () => {
     try {
       const url = filter === 'all'
@@ -102,7 +98,6 @@ const PostManagementPage = () => {
     }
   };
 
-  // Handle approval/rejection - Post approve/reject করার function
   const handleApproval = async () => {
     const { postId, status } = approveModal;
 
@@ -133,7 +128,6 @@ const PostManagementPage = () => {
     }
   };
 
-  // Handle delete - Post delete করার function
   const handleDeletePost = async () => {
     const { postId } = deleteModal;
 
@@ -180,8 +174,6 @@ const PostManagementPage = () => {
             <h1 className="text-xl sm:text-2xl font-bold text-[#70B44A]">Post <span className='text-black'>Management</span></h1>
           </div>
 
-          {/* Filter Tabs - Status filter tabs add করা হয়েছে */}
-          {/* Responsive করা হয়েছে - mobile এ 2x2 grid, tablet+ এ horizontal */}
           <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 mb-4 sm:mb-6">
             <button
               onClick={() => setFilter('pending')}
@@ -225,7 +217,7 @@ const PostManagementPage = () => {
             Total Posts: {posts.length}
           </div>
 
-          {/* Posts Grid */}
+          {/* Posts */}
           {posts.length === 0 ? (
             <div className="text-center text-gray-500 mt-10">
               <p>No posts found in this category</p>
@@ -234,13 +226,12 @@ const PostManagementPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {posts.map((post) => (
                 <div key={post.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-4 sm:p-6 border border-gray-200">
-                  {/* Post Header */}
+                  {/* Post */}
                   <div className="mb-4">
                     <div className="flex justify-between mb-2">
                       <h3 className="text-base sm:text-lg font-semibold text-[#70B44A]">
                         {post.class_level}
                       </h3>
-                      {/* Approval status badge - Status badge add করা হয়েছে */}
                       <span className={`text-xs px-2 py-1 rounded-full ${post.approval_status === 'approved' ? 'bg-green-100 text-green-800' :
                           post.approval_status === 'rejected' ? 'bg-red-100 text-red-800' :
                             'bg-yellow-100 text-yellow-800'
@@ -266,7 +257,7 @@ const PostManagementPage = () => {
                     )}
                   </div>
 
-                  {/* Student ID Card - নতুন section */}
+                  {/* Student ID Card */}
                   {post.student_id_card_url && (
                     <div className="mb-4">
                       <p className="text-sm font-medium text-gray-700 mb-2">Student ID Card:</p>
@@ -291,7 +282,6 @@ const PostManagementPage = () => {
                     <p className="text-xs sm:text-sm text-gray-500 break-all">{post.owner_email}</p>
                   </div>
 
-                  {/* Actions - Pending posts এর জন্য approve/reject buttons */}
                   {post.approval_status === 'pending' && (
                     <div className="flex flex-col sm:flex-row gap-2 mb-2">
                       <button
@@ -318,7 +308,7 @@ const PostManagementPage = () => {
                       </button>
                     </div>
                   )}
-                  {/* Delete button and Post date */}
+
                   {post.approval_status !== 'pending' && (
 
                     <div className="flex justify-between items-center gap-2">
@@ -345,7 +335,7 @@ const PostManagementPage = () => {
         </div>
       </div>
 
-      {/* Approval Confirmation Modal - Approve/Reject confirmation modal */}
+      {/* Approval confirmation modal */}
       {approveModal.open && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
           <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-md border border-gray-200">
@@ -378,7 +368,7 @@ const PostManagementPage = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal - Delete confirmation modal */}
+      {/* Delete Confirmation Modal*/}
       {deleteModal.open && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
           <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-md border border-gray-200">
@@ -404,7 +394,7 @@ const PostManagementPage = () => {
         </div>
       )}
 
-      {/* Student ID Card Image Viewer Modal - ID card full view করার modal */}
+      {/* Student ID Card Modal*/}
       {imageModal.open && (
         <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
           <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-3xl border border-gray-200 relative">
@@ -416,7 +406,7 @@ const PostManagementPage = () => {
               <FaTimes size={24} />
             </button>
 
-            {/* Modal Header */}
+            {/* Modal */}
             <h3 className="text-lg sm:text-xl font-semibold text-[#70B44A]">
               Student ID Card :
             </h3>

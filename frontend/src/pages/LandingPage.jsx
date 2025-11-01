@@ -16,7 +16,7 @@ const LandingPage = () => {
       setUser(user);
 
       if (user) {
-        // Fetch profile to check role
+        // Fetch profile 
         try {
           const response = await fetch(`http://localhost:5000/api/auth/profile/${user.id}`);
           const result = await response.json();
@@ -25,7 +25,6 @@ const LandingPage = () => {
             setProfile(result.profile);
           }
           if (result.success && result.profile?.role === 'admin') {
-            // ⿣ Redirect to admin dashboard
             navigate('/admin');
             return;
           }
@@ -103,7 +102,7 @@ const LandingPage = () => {
           </>
         ) : (
           <>
-            {/* Logged-in User View */}
+            {/* for Logged-in User */}
             <section className="px-4 py-16 bg-white">
               <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-3xl sm:text-4xl font-bold text-[#70B44A] mb-6">
@@ -113,7 +112,7 @@ const LandingPage = () => {
                   You're logged in. Explore the tools and services designed to help you learn, teach, and connect.
                 </p>
 
-                {/* Student role - Show 3 cards including Become a Tutor */}
+                {/* Student role */}
                 {profile?.role === 'student' && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                     <div className="bg-[#FBFDF7] p-6 rounded-xl shadow hover:shadow-md transition">
@@ -133,7 +132,7 @@ const LandingPage = () => {
                   </div>
                 )}
 
-                {/* Tutor role - Show 2 cards without Become a Tutor */}
+                {/* Tutor role */}
                 {profile?.role !== 'student' && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8">
                     <div className="bg-[#FBFDF7] p-6 rounded-xl shadow hover:shadow-md transition">

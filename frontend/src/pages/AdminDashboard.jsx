@@ -28,13 +28,12 @@ const AdminDashboard = () => {
           return;
         }
 
-        // Check if user is admin
+        // Check user is admin
         const response = await fetch(`http://localhost:5000/api/auth/profile/${user.id}`);
         const result = await response.json();
 
         if (!result.success || result.profile.role !== 'admin') {
           toast.warning('Access denied. Admin only.');
-          // navigate('/dashboard');
           navigate('/')
           return;
         }
@@ -83,7 +82,6 @@ const AdminDashboard = () => {
         <div className="max-w-7xl mx-auto">
           <h1 className="text-2xl font-bold text-[#70B44A] mb-6">Admin <span className='text-black'>Dashboard</span></h1>
 
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
             <div className="bg-[#FBFDF7] rounded-lg shadow-md p-6 border-l-4 border-blue-400">
               <div className="flex items-center justify-between">
@@ -134,11 +132,9 @@ const AdminDashboard = () => {
                 <FaBook className="text-4xl text-orange-400" />
               </div>
             </div>
-            {/* </div> */}
 
           </div>
 
-          {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <button
               onClick={() => navigate('/tutors-verification')}
@@ -161,7 +157,6 @@ const AdminDashboard = () => {
               <p className="text-gray-600 text-sm">View and manage all registered users</p>
             </button>
 
-            {/* Post Management button এ pending count badge add করা হয়েছে */}
             <button
               onClick={() => navigate('/posts-management')}
               className="bg-[#FBFDF6] rounded-lg shadow-md p-6 hover:shadow-xl transition text-left border border-gray-200 hover:cursor-pointer"

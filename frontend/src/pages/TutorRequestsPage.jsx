@@ -58,7 +58,6 @@ const TutorRequestsPage = () => {
 
             if (result.success) {
                 toast.success(`Request ${status} successfully!`);
-                // Update local state
                 setRequests(requests.map(req =>
                     req.id === requestId ? { ...req, status } : req
                 ));
@@ -106,7 +105,7 @@ const TutorRequestsPage = () => {
                         <div className="grid grid-cols-1 gap-6">
                             {requests.map((request) => (
                                 <div key={request.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-xl transition">
-                                    {/* Request Header */}
+                                    {/* Request */}
                                     <div className="border-b border-gray-300 pb-4 mb-4">
                                         <div className="flex justify-between items-start">
                                             <div>
@@ -134,12 +133,12 @@ const TutorRequestsPage = () => {
                                         </p>
                                     </div>
 
-                                    {/* Timestamp */}
+                                    {/* Times*/}
                                     <div className="text-xs text-gray-400 mb-4">
                                         Received: {new Date(request.created_at).toLocaleDateString()}
                                     </div>
 
-                                    {/* Status Sections */}
+                                    {/* Status */}
                                     {request.status === 'accepted' && (
                                         <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
                                             <h4 className="font-medium text-green-800 mb-2">Request Accepted</h4>

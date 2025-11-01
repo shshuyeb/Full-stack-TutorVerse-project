@@ -17,8 +17,6 @@ import MyApplicationsPage from "./pages/MyApplicationsPage";
 import AllTutorsPage from "./pages/AllTutorsPage";
 import MyAppliedPostsPage from "./pages/MyAppliedPostsPage";
 import TutorDetailsPage from "./pages/TutorDetailsPage";
-// import TutorProfilePage from "./pages/TutorProfilePage";
-// import EditTutorProfilePage from "./pages/EditTutorProfilePage";
 import AdminDashboard from "./pages/AdminDashboard";
 import TutorVerificationPage from "./pages/TutorVerificationPage";
 import UserManagementPage from "./pages/UserManagementPage";
@@ -49,8 +47,6 @@ function App() {
           <Route path="/all-tutors" element={<AllTutorsPage />} />
           <Route path="/my-applied-posts" element={<MyAppliedPostsPage />} />
           <Route path="/tutor-details/:tutorId" element={<TutorDetailsPage />} />
-          {/* <Route path="/tutor-profile" element={<TutorProfilePage />} /> */}
-          {/* <Route path="/edit-tutor-profile" element={<EditTutorProfilePage />} /> */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/tutors-verification" element={<TutorVerificationPage />} />
           <Route path="/users-management" element={<UserManagementPage />} />

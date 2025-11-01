@@ -7,9 +7,6 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
 
-    // const currentPath = window.location.pathname; // ✅ active path ধরছি
-
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = async () => {
@@ -30,7 +27,6 @@ const Navbar = () => {
           const result = await response.json();
           if (result.success) {
 
-            // যদি tutor হয় তাহলে tutor profile থেকে image নিন
             if (result.profile.role === 'tutor') {
               const tutorResponse = await fetch(`http://localhost:5000/api/tutors/my-profile/${user.id}`);
               const tutorResult = await tutorResponse.json();
@@ -61,8 +57,6 @@ const Navbar = () => {
   }, []);
 
   const isProfile = location.pathname === '/dashboard';
-  // const isActive = (path) => currentPath === path; // ✅ Helper function
-
   return (
     <nav className="bg-[#FBFDF7] border-b border-gray-200 shadow-sm fixed top-0 left-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -78,7 +72,6 @@ const Navbar = () => {
         </div>
 
         <ul className="hidden sm:flex space-x-6 font-semibold text-sm text-black items-center">
-          {/* <a href="/" className={`${isActive('/') ? 'text-[#70B44A] border-b-2 border-[#70B44A]' : 'hover:text-[#70B44A]'}`}>Home</a> */}
 
           <li><a href="/" className="hover:text-[#70B44A]">Home</a></li>
           <li><a href="/all-tutors" className="hover:text-[#70B44A]">Tutors</a></li>
@@ -105,10 +98,9 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Mobile menu e logout button add korlam */}
+      {/* mobile  */}
       {isOpen && (
         <ul className="sm:hidden px-4 pb-4 space-y-2 font-medium text-sm text-black">
-          {/* <a href="/" className={`${isActive('/') ? 'text-[#70B44A] border-b-2 border-[#70B44A]' : 'hover:text-[#70B44A]'}`}>Home</a> */}
           <li><a href="/" className="block hover:text-[#70B44A]">Home</a></li>
           <li><a href="/all-tutors" className="block hover:text-[#70B44A]">Tutors</a></li>
           <li><a href="/all-posts" className="block hover:text-[#70B44A]">Tuitions</a></li>

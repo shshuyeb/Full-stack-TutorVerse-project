@@ -55,11 +55,7 @@ const SideBar = () => {
 
   return (
     <div>
-      {/* Desktop Sidebar */}
-      {/* fixed class add korlam sidebar fixed position e rakhte */}
-      {/* top-0 left-0 add korlam screen er top-left corner theke sidebar start hobe */}
-      {/* h-screen use korlam full height cover korte, h-full er bodole */}
-      {/* overflow-y-auto add korlam jate sidebar er bhitore content beshi hole scroll hoy */}
+
       <div className="hidden md:flex md:fixed md:top-0 md:left-0 md:h-screen md:overflow-y-auto flex-col w-60 bg-[#F9FFF5] border-r border-gray-300 p-4">
         <ul className="space-y-2 pt-20">
           {tabs.map((tab) => (
@@ -75,7 +71,7 @@ const SideBar = () => {
               </button>
             </li>
           ))}
-          {/* logout button for dekstop */}
+          {/* logout for dekstop */}
           <li>
             <button
               onClick={handleLogout}
@@ -92,10 +88,6 @@ const SideBar = () => {
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      {/* pb-safe class add korlam jeno mobile bar er niche safe area thake */}
-      {/* py-3 korsi aro space er jonno */}
-      {/* Mobile e logout button remove korlam - eta ekhon navbar e thakbe */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-300 shadow-md flex justify-around items-center py-3 pb-safe md:hidden z-50">
         {tabs.map((tab) => (
           <button

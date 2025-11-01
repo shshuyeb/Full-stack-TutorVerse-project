@@ -20,12 +20,10 @@ const PostTuitionPage = () => {
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  //  File state add 
   const [studentIdCard, setStudentIdCard] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // File change handler add 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -43,7 +41,7 @@ const PostTuitionPage = () => {
     }
   };
 
-  // Upload function add 
+  // Upload function  
   const uploadStudentIdCard = async (userId) => {
     if (!studentIdCard) return null;
 
@@ -86,7 +84,7 @@ const PostTuitionPage = () => {
       return;
     }
 
-    // Student ID card required check
+    // check Student 
     if (!studentIdCard) {
       toast.error("Please upload your student ID card");
       return;
@@ -102,11 +100,9 @@ const PostTuitionPage = () => {
     setUploading(true);
     try {
 
-      // Upload student ID card
-      // toast.info('Uploading student ID card...');
       const idCardUrl = await uploadStudentIdCard(user.id);
 
-      // Backend API call
+      // API call
       const response = await fetch('http://localhost:5000/api/posts/create', {
         method: 'POST',
         headers: {
@@ -137,11 +133,9 @@ const PostTuitionPage = () => {
         setPreviewUrl(null);
       } else {
         toast.error('Post failed: ' + result.message);
-        // setError(result.message);
       }
     } catch (error) {
       toast.error('Network error: ' + error.message);
-      // setError('Network error occurred');
     } finally {
       setUploading(false);
     }
@@ -153,7 +147,6 @@ const PostTuitionPage = () => {
       <div className="flex flex-grow flex-col md:flex-row">
         <SideBar />
 
-        {/*Main Content */}
         <div className="flex-grow flex items-center justify-center px-4 sm:px-6 py-8">
           <div className="bg-[#FBFDF6] p-6 sm:p-8 rounded-lg shadow-md w-full max-w-xl border border-gray-200">
             <h2 className="text-xl font-bold text-center">
@@ -168,7 +161,7 @@ const PostTuitionPage = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
 
-              {/* Student ID Card Upload Section  */}
+              {/* Student ID Card  */}
               <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Student ID Card (Required for verification)
@@ -195,7 +188,6 @@ const PostTuitionPage = () => {
                   <label className="w-full border border-gray-300  bg-[#FDFAF6] rounded-md px-4 py-8 text-center cursor-pointer block ">
                     <div className="text-gray-500">
                       <p className="mb-2">Click to upload student ID card</p>
-                      <p className="text-xs">PNG, JPG up to 2MB</p>
                     </div>
                     <input
                       type="file"

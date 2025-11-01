@@ -17,20 +17,18 @@ const AdminNavbar = () => {
   return (
     <nav className="bg-[#FBFDF7] border-b border-gray-200 shadow-sm fixed top-0 left-0 w-full z-50">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex flex-col leading-tight">
           <a href='/admin' className="text-3xl font-bold text-[#70B44A]">TutorVerse</a>
           <span className="text-xs text-gray-500 -mt-1 ml-2">Your trusted tutor partner</span>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div className="sm:hidden">
           <button onClick={toggleMenu} className="text-black text-2xl focus:outline-none">
             {isOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
 
-        {/* Desktop Menu */}
+        {/* Desktop */}
         <ul className="hidden sm:flex space-x-6 font-semibold text-sm text-black items-center">
           <li>
             <a href="/admin" className="hover:text-[#70B44A]">
@@ -61,7 +59,7 @@ const AdminNavbar = () => {
         </ul>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile */}
       {isOpen && (
         <ul className="sm:hidden px-4 pb-4 space-y-3 font-medium text-sm text-black">
           <li>

@@ -99,7 +99,7 @@ const MyAppliedPostsPage = () => {
                           <span>Salary: ৳{application.post.salary} | Location: {application.post.location}</span>
                         </div>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      <span className={`px-3 py-1 rounded-md text-xs font-medium ${
                         application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                         application.status === 'accepted' ? 'bg-green-100 text-green-800' :
                         'bg-red-100 text-red-800'

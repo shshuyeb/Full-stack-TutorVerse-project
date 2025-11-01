@@ -2,13 +2,11 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseConfig');
 
-// Send request to tutor
+// Send request 
 router.post('/send', async (req, res) => {
   const { studentId, tutorId, message } = req.body;
   
   try {
-    // শুধু pending status এর request check করা হচ্ছে
-    // Accept/Reject হলে আবার নতুন request পাঠানো যাবে
     const { data: existing } = await supabase
       .from('tutor_requests')
       .select('id, status')
@@ -17,7 +15,6 @@ router.post('/send', async (req, res) => {
       .eq('status', 'pending')
       .single();
     
-    // Pending request থাকলে error return করবে
     if (existing) {
       return res.status(400).json({
         success: false,
@@ -25,7 +22,6 @@ router.post('/send', async (req, res) => {
       });
     }
     
-    // নতুন request create করা হচ্ছে default status 'pending' দিয়ে
     const { data, error } = await supabase
       .from('tutor_requests')
       .insert([{
@@ -58,7 +54,7 @@ router.post('/send', async (req, res) => {
   }
 });
 
-// Get requests for tutor
+// Get requests 
 router.get('/tutor/:tutorId', async (req, res) => {
   const { tutorId } = req.params;
   
@@ -93,7 +89,7 @@ router.get('/tutor/:tutorId', async (req, res) => {
   }
 });
 
-// Update request status
+// Update request 
 router.put('/:requestId/status', async (req, res) => {
   const { requestId } = req.params;
   const { status } = req.body;
@@ -127,12 +123,11 @@ router.put('/:requestId/status', async (req, res) => {
   }
 });
 
-// Check if student has sent request to tutor
+// Check student has sent request 
 router.get('/check/:tutorId/:studentId', async (req, res) => {
   const { tutorId, studentId } = req.params;
   
   try {
-    // সবচেয়ে সাম্প্রতিক request fetch করা হচ্ছে order by created_at desc দিয়ে
     const { data, error } = await supabase
       .from('tutor_requests')
       .select('id, status')
@@ -149,11 +144,10 @@ router.get('/check/:tutorId/:studentId', async (req, res) => {
       });
     }
     
-    // Response এ status field add করা হয়েছে যা frontend এ use হবে
     res.json({
       success: true,
       hasRequested: !!data,
-      status: data?.status || null // 'pending', 'accepted', 'rejected'
+      status: data?.status || null 
     });
     
   } catch (error) {
@@ -164,12 +158,11 @@ router.get('/check/:tutorId/:studentId', async (req, res) => {
   }
 });
 
-// Get requests sent by student
+// Get requests 
 router.get('/student/:studentId', async (req, res) => {
   const { studentId } = req.params;
   
   try {
-    // First get tutor_requests
     const { data: requests, error: requestsError } = await supabase
       .from('tutor_requests')
       .select('*')
@@ -192,7 +185,6 @@ router.get('/student/:studentId', async (req, res) => {
       });
     }
 
-    // Get all unique tutor IDs
     const tutorIds = [...new Set(requests.map(req => req.tutor_id))];
 
     // Fetch tutor profiles
@@ -205,7 +197,7 @@ router.get('/student/:studentId', async (req, res) => {
       console.error('Tutor profiles fetch error:', tutorError);
     }
 
-    // Fetch profiles (email, phone,location)
+    // Fetch profiles 
     const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select('id, email, phone, address')
@@ -215,7 +207,6 @@ router.get('/student/:studentId', async (req, res) => {
       console.error('Profiles fetch error:', profilesError);
     }
 
-    // Create lookup maps
     const tutorProfileMap = {};
     const profileMap = {};
 
@@ -231,7 +222,6 @@ router.get('/student/:studentId', async (req, res) => {
       });
     }
 
-    // Combine data
     const formattedRequests = requests.map(req => ({
       ...req,
       tutor: {

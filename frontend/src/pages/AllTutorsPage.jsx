@@ -9,8 +9,6 @@ const AllTutorsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [user, setUser] = useState(null);
-
-  // Search states
   const [searchTerm, setSearchTerm] = useState('');
   const [filterEducation, setFilterEducation] = useState('');
 
@@ -45,11 +43,9 @@ const AllTutorsPage = () => {
     fetchTutors();
   }, []);
 
-  // Filter tutors based on search and education level
   useEffect(() => {
     let filtered = tutors;
 
-    // Text search - name, bio search
     if (searchTerm) {
       filtered = filtered.filter(tutor => {
         const fullName = `${tutor.first_name} ${tutor.last_name}`.toLowerCase();
@@ -61,7 +57,6 @@ const AllTutorsPage = () => {
       });
     }
 
-    // Education level filter
     if (filterEducation) {
       filtered = filtered.filter(tutor => {
         if (filterEducation === 'masters' && tutor.masters_result) return true;
@@ -97,7 +92,7 @@ const AllTutorsPage = () => {
           {/* Search and Filter Section */}
           <div className="bg-[#FBFDF6] p-4 rounded-lg shadow-sm mb-6 border border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* General Search */}
+               {/* Search */}
               <div className="md:col-span-2">
                 <div className="relative">
                   <FaSearch className="absolute left-3 top-3 text-gray-400" />
@@ -111,7 +106,7 @@ const AllTutorsPage = () => {
                 </div>
               </div>
 
-              {/* Education Level Filter */}
+              {/* Education  Filter */}
               <div>
                 <select
                   value={filterEducation}
@@ -170,7 +165,7 @@ const AllTutorsPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredTutors.map((tutor) => (
                 <div key={tutor.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-xl transition">
-                  {/* Tutor Header with Image */}
+                  {/* Tutor Header*/}
                   <div className="flex items-center gap-4 mb-4">
                     {tutor.profile_picture_url ? (
                       <img 
@@ -207,14 +202,14 @@ const AllTutorsPage = () => {
                     <p><span className="font-medium">SSC:</span> {tutor.ssc_result}</p>
                   </div>
 
-                  {/* Bio Preview */}
+                  {/* Bio */}
                   {tutor.bio && (
                     <div className="mb-4">
                       <p className="text-sm text-gray-600 line-clamp-2">{tutor.bio}</p>
                     </div>
                   )}
 
-                  {/* Contact Info - Conditional */}
+                  {/* Contact Info*/}
                   {user ? (
                     <div className="text-sm text-gray-600 mb-4 bg-green-50 p-3 rounded-md border border-green-200">
                       <p><span className="font-medium">Email:</span> {tutor.email}</p>

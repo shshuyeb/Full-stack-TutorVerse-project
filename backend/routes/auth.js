@@ -7,38 +7,6 @@ router.get('/test', (req, res) => {
   res.json({ message: 'Auth route Working' });
 });
 
-// Login route 
-// router.post('/login', async (req, res) => {
-//   const { email, password } = req.body;
-  
-//   try {
-
-//     const { data, error } = await supabase.auth.signInWithPassword({
-//       email: email,
-//       password: password
-//     });
-
-//     if (error) {
-//       return res.status(400).json({ 
-//         success: false, 
-//         message: error.message 
-//       });
-//     }
-
-//     res.json({ 
-//       success: true, 
-//       message: 'Login successful ',
-//       user: data.user 
-//     });
-
-//   } catch (error) {
-//     res.status(500).json({ 
-//       success: false, 
-//       message: 'Server error' 
-//     });
-//   }
-// });
-
 // Register route
 router.post('/register', async (req, res) => {
   const { fullName, email, phone, password, gender, role, address } = req.body;
@@ -46,7 +14,6 @@ router.post('/register', async (req, res) => {
   console.log('Registration attempt for:', email);
   
   try {
-    // Check if email already exists
     const { data: existingUser } = await supabase
       .from('profiles')
       .select('email')
@@ -60,7 +27,7 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    // Create user in Supabase Auth
+    // Create user 
     const { data, error: signUpError } = await supabase.auth.signUp({
       email: email,
       password: password,

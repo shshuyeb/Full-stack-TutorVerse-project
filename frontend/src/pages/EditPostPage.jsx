@@ -20,9 +20,9 @@ const EditPostPage = () => {
   });
   
   // Student ID card states add 
-  const [studentIdCard, setStudentIdCard] = useState(null); // new upload  file
-  const [previewUrl, setPreviewUrl] = useState(null); // Preview URL (existing or new)
-  const [existingIdCardUrl, setExistingIdCardUrl] = useState(null); // in Database , existing URL
+  const [studentIdCard, setStudentIdCard] = useState(null); 
+  const [previewUrl, setPreviewUrl] = useState(null); 
+  const [existingIdCardUrl, setExistingIdCardUrl] = useState(null); 
   const [uploading, setUploading] = useState(false);
   
   const [error, setError] = useState("");
@@ -30,11 +30,9 @@ const EditPostPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  // Fetch post data for editing - useEffect for Post data load  
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        // Get current user
         const { data: { user }, error: userError } = await supabase.auth.getUser();
         
         if (userError || !user) {
@@ -45,7 +43,7 @@ const EditPostPage = () => {
 
         setUser(user);
 
-        // Fetch post data for editing
+        // Fetch post editing
         const response = await fetch(`http://localhost:5000/api/posts/edit/${postId}/${user.id}`);
         const result = await response.json();
         
@@ -61,7 +59,6 @@ const EditPostPage = () => {
             requirement: post.requirement || "",
           });
           
-          // Existing student ID card URL set 
           if (post.student_id_card_url) {
             setExistingIdCardUrl(post.student_id_card_url);
             setPreviewUrl(post.student_id_card_url);
@@ -87,34 +84,29 @@ const EditPostPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // File change handler - Student ID card upload - for new file select  handler
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         toast.error('File size should be less than 2MB');
-        e.target.value = null; // Clear input
+        e.target.value = null; 
         return;
       }
 
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         toast.error('Please select an image file');
-        e.target.value = null; // Clear input
+        e.target.value = null;
         return;
       }
 
       setStudentIdCard(file);
       const preview = URL.createObjectURL(file);
       setPreviewUrl(preview);
-      // toast.success('New ID card selected'); 
     }
   };
 
-  // Upload student ID card to storage - Supabase storage এ upload করার function
   const uploadStudentIdCard = async (userId) => {
-    if (!studentIdCard) return existingIdCardUrl; // যদি নতুন file না থাকে তাহলে existing URL return করা হচ্ছে
+    if (!studentIdCard) return existingIdCardUrl; 
 
     const fileExt = studentIdCard.name.split('.').pop();
     const fileName = `${userId}-${Date.now()}.${fileExt}`;
@@ -139,7 +131,6 @@ const EditPostPage = () => {
     return publicData.publicUrl;
   };
 
-  // Form submit handler - Post update করার function
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -150,7 +141,6 @@ const EditPostPage = () => {
       return;
     }
 
-    // Student ID card required check - Updated validation
     if (!existingIdCardUrl && !studentIdCard) {
       toast.error("Please upload your student ID card");
       return;
@@ -161,13 +151,11 @@ const EditPostPage = () => {
     try {
       let idCardUrl = existingIdCardUrl;
 
-      // যদি নতুন ID card upload করা হয় তাহলে upload করা হচ্ছে
       if (studentIdCard) {
-        // toast.info('Uploading new student ID card...');
         idCardUrl = await uploadStudentIdCard(user.id);
       }
 
-      // Backend API call - Post update 
+      //Post update 
       const response = await fetch(`http://localhost:5000/api/posts/update/${postId}/${user.id}`, {
         method: 'PUT',
         headers: {
@@ -175,7 +163,7 @@ const EditPostPage = () => {
         },
         body: JSON.stringify({
           ...formData,
-          studentIdCardUrl: idCardUrl // Send Student ID card URL 
+          studentIdCardUrl: idCardUrl 
         })
       });
 
@@ -225,7 +213,6 @@ const EditPostPage = () => {
           {message && <p className="text-green-600 text-sm text-center mb-4">{message}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Student ID Card Upload Section */}
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Student ID Card (Required for verification)
@@ -237,16 +224,13 @@ const EditPostPage = () => {
                     alt="ID Card Preview" 
                     className="w-full h-48 object-cover rounded-md border border-gray-300"
                   />
-                  {/* Remove/Reset button - Fix করা হয়েছে */}
                   <button
                     type="button"
                     onClick={() => {
                       if (studentIdCard) {
-                        // যদি নতুন file select করা থাকে তাহলে সেটা remove করে existing এ back করুন
                         setStudentIdCard(null);
                         setPreviewUrl(existingIdCardUrl);
                       } else {
-                        // যদি শুধু existing card থাকে তাহলে সেটা remove করুন
                         setStudentIdCard(null);
                         setPreviewUrl(null);
                         setExistingIdCardUrl(null);

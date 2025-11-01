@@ -185,7 +185,7 @@ const TutorDetailsPage = () => {
                 )}
                 <div>
                   <h1 className="text-3xl font-bold text-[#70B44A]">
-                    {tutor.first_name} {tutor.last_name}
+                    {tutor.full_name}
                   </h1>
                   <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${tutor.verification_status === 'approved'
                       ? 'bg-green-100 text-green-800'

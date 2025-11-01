@@ -23,20 +23,19 @@ const Dashboard = () => {
 
         setUser(user);
 
-        // Fetch basic profile
+        // Fetch profile
         const response = await fetch(`http://localhost:5000/api/auth/profile/${user.id}`);
         const result = await response.json();
 
         if (result.success) {
           setProfile(result.profile);
 
-          // যদি tutor হয় তাহলে check করুন profile complete আছে কিনা
+          //  check tutor profile 
           if (result.profile.role === 'tutor') {
             const tutorResponse = await fetch(`http://localhost:5000/api/tutors/my-profile/${user.id}`);
             const tutorResult = await tutorResponse.json();
 
             if (!tutorResult.success) {
-              // Tutor profile নেই, redirect to tutor form
               window.location.href = '/tutor-form';
               return;
             }
@@ -77,7 +76,7 @@ const Dashboard = () => {
         <div className="flex-1 p-6">
           <div className="max-w-4xl mx-auto">
 
-            {/* Basic Profile Section */}
+            {/* user Profile  */}
             <div className="bg-[#FBFDF6] rounded-lg shadow-md p-6 border border-gray-200 mt-6 mb-6">
               <div className="flex flex-col items-center mb-6">
                 {/* Profile Picture */}
@@ -98,8 +97,7 @@ const Dashboard = () => {
                 )}
 
                 <h3 className="text-2xl font-semibold text-[#70B44A] mb-1">{profile?.full_name}</h3>
-                {/* <p className="text-gray-600 mb-1">{user?.email}</p> */}
-
+                
                 {/* Verification Status for Tutor */}
                 {profile?.role === 'tutor' ? (
                   <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${tutorProfile?.verification_status === 'approved'
@@ -141,7 +139,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Tutor Profile Section */}
+            {/* Tutor Profile */}
             {profile?.role === 'tutor' && tutorProfile && (
               <div className="bg-[#FBFDF6] rounded-lg shadow-md p-6 border border-gray-200 mb-6">
                 <h3 className="text-xl font-semibold text-[#70B44A] mb-4 flex items-center gap-2">

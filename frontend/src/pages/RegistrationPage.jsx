@@ -19,9 +19,9 @@ const RegistrationPage = () => {
   const [error, setError] = useState('');
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-  const nameRegex = /^([a-zA-Z_\s]){5,20}/;
-  const numberRegex = /^(\+88)?01[3-9]\d{8}/;
-  const addressRegex = /^([a-zA-Z0-9,\-/\s]){8,}/;
+  const nameRegex = /^([a-zA-Z_\s]){5,}$/;
+  const numberRegex = /^(\+88)?01[3-9]\d{8}$/;
+  const addressRegex = /^([a-zA-Z0-9,\-/\s]){8,}$/;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,7 +63,6 @@ const RegistrationPage = () => {
       return;
     }
 
-    // Backend API call for registration
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',

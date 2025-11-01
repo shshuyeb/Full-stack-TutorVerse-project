@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../supabaseConfig');
 
-// Post tuition or creation route - 
+// Post creation route 
 router.post('/create', async (req, res) => {
   const { classLevel, group, subject, salary, gender, location, requirement, userId, studentIdCardUrl } = req.body; 
   
@@ -44,14 +44,14 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// Get all posts route - only approved posts fetch 
+// Get all posts route and only approved posts  
 router.get('/all', async (req, res) => {
   try {
 
     const { data, error } = await supabase
       .from("tuition_posts")
       .select('*')
-      .eq('is_approved', true)  // শুধু approved posts fetch করা হচ্ছে
+      .eq('is_approved', true) 
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -75,7 +75,7 @@ router.get('/all', async (req, res) => {
   }
 });
 
-// Get user's posts route - User এর নিজের সব posts fetch করার route (সব status সহ)
+// Get user's own posts route 
 router.get('/my-posts/:userId', async (req, res) => {
   const { userId } = req.params;
   

@@ -88,7 +88,7 @@ const MySentRequestsPage = () => {
             <div className="grid grid-cols-1 gap-6">
               {requests.map((request) => (
                 <div key={request.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-xl transition">
-                  {/* Request Header */}
+                  {/* Request */}
                   <div className="border-b border-gray-300 pb-4 mb-4">
                     <div className="flex justify-between items-start">
                       <div>
@@ -96,8 +96,6 @@ const MySentRequestsPage = () => {
                           {request.tutor.first_name} {request.tutor.last_name}
                         </h3>
                         <div className="text-sm text-gray-600 space-y-1">
-                          {/* <p><span className="font-medium">SSC:</span> {request.tutor.ssc_result}</p>
-                          <p><span className="font-medium">HSC:</span> {request.tutor.hsc_result}</p> */}
                           <p><span className="font-medium">Address:</span> {request.tutor.address}</p>
 
                         </div>
@@ -112,7 +110,7 @@ const MySentRequestsPage = () => {
                     </div>
                   </div>
 
-                  {/* Your Message */}
+                  {/* Message */}
                   <div className="mb-4">
                     <h4 className="font-medium text-gray-700 mb-2">Your Message:</h4>
                     <p className="text-sm text-gray-600 p-2 border border-gray-300 rounded-md">
@@ -120,12 +118,12 @@ const MySentRequestsPage = () => {
                     </p>
                   </div>
 
-                  {/* Timestamp */}
+                  {/* Time */}
                   <div className="text-xs text-gray-400 mb-4">
                     Sent: {new Date(request.created_at).toLocaleDateString()}
                   </div>
 
-                  {/* Status Sections */}
+                  {/* Status */}
                   {request.status === 'accepted' && (
                     <div className="bg-green-50 border border-green-200 rounded-md p-4">
                       <h4 className="font-medium text-green-800 mb-2">Request Accepted</h4>

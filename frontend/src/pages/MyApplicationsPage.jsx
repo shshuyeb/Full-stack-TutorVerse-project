@@ -24,7 +24,7 @@ const MyApplicationsPage = () => {
 
         setUser(user);
 
-        // Fetch applications for user's posts
+        // Fetch applications for user posts
         const response = await fetch(`http://localhost:5000/api/posts/applications/${user.id}`);
         const result = await response.json();
 
@@ -59,7 +59,6 @@ const MyApplicationsPage = () => {
       const result = await response.json();
 
       if (result.success) {
-        // Update local state
         setApplications(applications.map(app =>
           app.id === applicationId ? { ...app, status: newStatus } : app
         ));
@@ -67,9 +66,9 @@ const MyApplicationsPage = () => {
       } else {
         toast.error('Status update failed');
       }
-      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       toast.error('Network error occurred');
+      console.log(error)
     }
   };
 
@@ -134,8 +133,6 @@ const MyApplicationsPage = () => {
                     <h4 className="font-medium text-gray-700 mb-2">Applicant:</h4>
                     <div className="text-sm text-gray-600 space-y-1">
                       <p><span className="font-medium">Name:</span> {application.applicant.full_name}</p>
-                      {/* <p><span className="font-medium">Email:</span> {application.applicant.email}</p>
-                      <p><span className="font-medium">Phone:</span> {application.applicant.phone}</p> */}
                     </div>
                   </div>
 
@@ -149,7 +146,7 @@ const MyApplicationsPage = () => {
                     </div>
                   )}
 
-                  {/* Status and Actions */}
+                  {/* Status */}
                   <div className="flex justify-between items-center mt-4">
                     <span className="text-xs text-gray-400">
                       Applied: {new Date(application.created_at).toLocaleDateString()}
@@ -176,7 +173,6 @@ const MyApplicationsPage = () => {
                     <div className="mt-4 bg-green-50 border border-green-200 rounded-md p-4">
                       <h4 className="font-medium text-green-800 mb-2">Contact Information:</h4>
                       <div className="text-sm text-gray-700 space-y-1">
-                        {/* <p><span className="font-medium">Name:</span> {application.applicant.full_name}</p> */}
                         <p><span className="font-medium">Email:</span> {application.applicant.email}</p>
                         <p><span className="font-medium">Phone:</span> {application.applicant.phone}</p>
                       </div>

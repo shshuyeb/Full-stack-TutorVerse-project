@@ -195,7 +195,7 @@ const EditProfilePage = () => {
       // Upload new profile picture if selected
       let profilePicUrl = currentProfilePic;
       if (newProfilePic) {
-        toast.info('Uploading profile picture...');
+        // toast.info('Uploading profile picture...');
         profilePicUrl = await uploadProfilePicture();
       }
 

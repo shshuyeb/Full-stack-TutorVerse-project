@@ -5,10 +5,8 @@ import { toast } from 'react-toastify';
 const RequestModal = ({ tutor, isOpen, onClose, onSubmit }) => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  // CHANGE: modalRef add করা হয়েছে click outside detect করার জন্য
   const modalRef = useRef(null);
 
-  // CHANGE: Handle click outside modal - বাইরে click করলে modal close হবে
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -25,7 +23,6 @@ const RequestModal = ({ tutor, isOpen, onClose, onSubmit }) => {
     };
   }, [isOpen, onClose]);
 
-  // CHANGE: Handle escape key - Escape key press করলে modal close হবে
   useEffect(() => {
     const handleEscape = (event) => {
       if (event.key === 'Escape') {
@@ -54,7 +51,6 @@ const RequestModal = ({ tutor, isOpen, onClose, onSubmit }) => {
 
     try {
       await onSubmit(tutor.user_id, message);
-      // toast.success('Request sent successfully!');
       setMessage('');
       onClose();
     } catch (err) {
@@ -68,9 +64,7 @@ const RequestModal = ({ tutor, isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    // CHANGE: background opacity কমানো হয়েছে 0.15 তে যাতে background posts দেখা যায়
     <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
-      {/* CHANGE: modalRef add করা হয়েছে */}
       <div 
         ref={modalRef}
         className="bg-[#FBFDF6] rounded-lg shadow-2xl p-6 w-full max-w-md border border-gray-200"

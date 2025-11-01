@@ -79,13 +79,11 @@ const TutorFormPage = () => {
   const handleFileChange = (e, fileType) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         toast.error('File size should be less than 2MB');
         return;
       }
 
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         toast.error('Please select an image file');
         return;
@@ -93,7 +91,6 @@ const TutorFormPage = () => {
 
       setFiles({ ...files, [fileType]: file });
 
-      // Create preview URL
       const previewUrl = URL.createObjectURL(file);
       setPreviewUrls({ ...previewUrls, [fileType]: previewUrl });
     }
@@ -119,7 +116,6 @@ const TutorFormPage = () => {
       throw error;
     }
 
-    // Get public URL
     const { data: publicData } = supabase.storage
       .from('tutor-documents')
       .getPublicUrl(filePath);
@@ -130,13 +126,11 @@ const TutorFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate required text fields
     if (!formData.ssc || !formData.hsc) {
       toast.error('Please fill all required fields');
       return;
     }
 
-    // Validate required image uploads
     if (!files.profilePic) {
       toast.error('Please upload a profile picture');
       return;
@@ -150,27 +144,22 @@ const TutorFormPage = () => {
     setUploading(true);
 
     try {
-      // Upload files
       let profilePicUrl = null;
       let institutionIdUrl = null;
       let nidUrl = null;
 
       if (files.profilePic) {
-        // toast.info('Uploading profile picture...');
         profilePicUrl = await uploadFile(files.profilePic, 'profile-pictures');
       }
 
       if (files.institutionId) {
-        // toast.info('Uploading institution ID...');
         institutionIdUrl = await uploadFile(files.institutionId, 'institution-ids');
       }
 
       if (files.nid) {
-        // toast.info('Uploading NID...');
         nidUrl = await uploadFile(files.nid, 'nids');
       }
 
-      // Submit form with image URLs
       const response = await fetch('http://localhost:5000/api/tutors/apply', {
         method: 'POST',
         headers: {
@@ -202,7 +191,6 @@ const TutorFormPage = () => {
       if (result.success) {
         toast.success(result.message);
 
-        // Update user role to 'tutor'
         await fetch(`http://localhost:5000/api/auth/update-role/${user.id}`, {
           method: 'PUT',
           headers: {
@@ -246,9 +234,9 @@ const TutorFormPage = () => {
           </h2>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* LEFT SIDE - File Uploads */}
+
             <div className="flex flex-col items-center gap-6 col-span-1">
-              {/* Profile Picture - Dashboard Style */}
+              {/* Profile Picture*/}
               <div className="flex flex-col items-center w-full">
                 <div className="relative mb-2">
                   {previewUrls.profilePic ? (
@@ -327,27 +315,7 @@ const TutorFormPage = () => {
               </div>
             </div>
 
-            {/* RIGHT SIDE - Form Fields */}
             <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* First & Last Name */}
-              {/* <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="First name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm bg-[#FDFAF6] focus:outline-none focus:ring-2 focus:ring-[#70B44A]"
-                required
-              />
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Last name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm bg-[#FDFAF6] focus:outline-none focus:ring-2 focus:ring-[#70B44A]"
-                required
-              /> */}
 
               {/* SSC */}
               <input

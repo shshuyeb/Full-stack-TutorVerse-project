@@ -11,15 +11,13 @@ const TutorVerificationPage = () => {
   const [tutors, setTutors] = useState([]);
   const [filter, setFilter] = useState('pending');
 
-  // Document viewer modal state - Institution ID এবং NID দেখার জন্য modal state add করা হয়েছে
   const [documentModal, setDocumentModal] = useState({
     open: false,
     imageUrl: '',
-    documentType: '', // 'institution_id' or 'nid'
+    documentType: '',
     tutorName: ''
   });
 
-// fetchTutors function কে useCallback দিয়ে wrap করুন
 const fetchTutors = useCallback(async () => {
   try {
     const url = filter === 'all' 
@@ -38,7 +36,7 @@ const fetchTutors = useCallback(async () => {
   } finally {
     setLoading(false);
   }
-}, [filter]); // filter dependency
+}, [filter]); 
 
 useEffect(() => {
   const checkAdminAndFetch = async () => {
@@ -67,7 +65,7 @@ useEffect(() => {
   };
 
   checkAdminAndFetch();
-}, [navigate, fetchTutors]); // fetchTutors dependency add
+}, [navigate, fetchTutors]); 
 
   const handleVerification = async (tutorId, status) => {
     try {
@@ -113,8 +111,6 @@ useEffect(() => {
             <h1 className="text-xl sm:text-2xl font-bold text-[#70B44A]">Tutor <span className='text-black'>Verification</span></h1>
           </div>
 
-          {/* Filter Tabs */}
-          {/* Responsive করা হয়েছে - mobile এ 2x2 grid, tablet+ এ horizontal */}
           <div className="grid grid-cols-2 sm:flex sm:flex-row gap-2 mb-4 sm:mb-6">
             <button
               onClick={() => setFilter('pending')}
@@ -158,7 +154,6 @@ useEffect(() => {
             </button>
           </div>
 
-          {/* Tutors List */}
           {tutors.length === 0 ? (
             <div className="text-center text-gray-500 mt-10">
               <p>No tutors found in this category</p>
@@ -168,7 +163,6 @@ useEffect(() => {
               {tutors.map((tutor) => (
                 <div key={tutor.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-4 sm:p-6 border border-gray-200">
                   <div className="flex flex-col md:flex-row gap-4 sm:gap-6">
-                    {/* Left - Profile Info */}
                     <div className="flex-1">
                       <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4">
                         {tutor.profile_picture_url ? (
@@ -217,12 +211,10 @@ useEffect(() => {
                         </div>
                       )}
 
-                      {/* Verification Documents - Institution ID এবং NID show করার section add করা হয়েছে */}
                       {(tutor.institution_id_url || tutor.nid_url) && (
                         <div className="my-4 sm:my-5">
                           <p className="text-xs sm:text-sm font-medium text-gray-700 mb-2">Verification Documents:</p>
                           <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                            {/* Institution ID Card */}
                             {tutor.institution_id_url && (
                               <div>
                                 <p className="text-xs text-gray-600 mb-1">Institution ID:</p>
@@ -264,7 +256,6 @@ useEffect(() => {
                       )}
                     </div>
 
-                    {/* Right - Actions */}
                     {tutor.verification_status === 'pending' && (
                       <div className="flex flex-row md:flex-col gap-2 sm:gap-3 justify-center md:justify-start items-stretch md:items-center md:w-auto">
                         <button
@@ -289,12 +280,10 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Document Viewer Modal - Institution ID এবং NID full view  modal */}
-      {/* z-[60] করা হয়েছে যাতে এটি details modal (z-50) এর উপরে থাকে এবং scroll issue fix হয় */}
+
       {documentModal.open && (
         <div className="fixed inset-0 flex items-center justify-center z-[60] p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
           <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-4 sm:p-6 w-full max-w-3xl border border-gray-200 relative">
-            {/* Close button */}
             <button
               onClick={() => setDocumentModal({ open: false, imageUrl: '', documentType: '', tutorName: '' })}
               className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-500 hover:text-gray-700 transition"
@@ -302,7 +291,7 @@ useEffect(() => {
               <FaTimes size={20} className="sm:w-6 sm:h-6" />
             </button>
 
-            {/* Modal Header */}
+            {/* Modal */}
             <h3 className="text-lg sm:text-xl font-semibold mb-1 text-[#70B44A] pr-8">
               {documentModal.documentType}
             </h3>

@@ -82,7 +82,6 @@ const UserManagementPage = () => {
     }
   }, [searchTerm, users]);
 
-  // Changed: window.confirm কে modal দিয়ে replace করা হয়েছে
   const handleRoleChange = async (userId, newRole, userName) => {
     setRoleModal({
       open: true,
@@ -92,7 +91,6 @@ const UserManagementPage = () => {
     });
   };
 
-  // Added: Role change confirm function
   const confirmRoleChange = async () => {
     const { userId, newRole } = roleModal;
 
@@ -161,15 +159,12 @@ const UserManagementPage = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col pt-20">
       <AdminNavbar />
-      {/* Changed: p-6 -> px-4 sm:px-6 for better mobile padding */}
       <div className="flex-1 px-4 sm:px-6 py-6">
         <div className="max-w-7xl mx-auto">
-          {/* Changed: flex-col sm:flex-row for mobile responsive heading */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-3">
             <h1 className="text-xl sm:text-2xl font-bold text-[#70B44A]">User <span className='text-black'>Management</span></h1>
           </div>
 
-          {/* Search - already responsive */}
           <div className="mb-6">
             <input
               type="text"
@@ -180,8 +175,6 @@ const UserManagementPage = () => {
             />
           </div>
 
-          {/* Changed: Desktop এ table, Mobile এ card layout */}
-          {/* Desktop Table - hidden on mobile */}
           <div className="hidden md:block bg-[#FBFDF6] rounded-lg shadow-md overflow-hidden">
             <table className="w-full">
               <thead className="bg-[#FBFDF6] border-b border-gray-300">
@@ -217,7 +210,6 @@ const UserManagementPage = () => {
                       <p className="text-sm text-gray-500">{user.phone}</p>
                     </td>
                     <td className="px-6 py-4">
-                      {/* Changed: onChange এ userName parameter add করা হয়েছে */}
                       <select
                         value={user.role}
                         onChange={(e) => handleRoleChange(user.id, e.target.value, user.full_name)}
@@ -247,11 +239,10 @@ const UserManagementPage = () => {
             </table>
           </div>
 
-          {/* Added: Mobile Card Layout - visible only on mobile */}
           <div className="md:hidden space-y-4">
             {filteredUsers.map((user) => (
               <div key={user.id} className="bg-[#FBFDF6] rounded-lg shadow-md p-4 border border-gray-200">
-                {/* User Info */}
+                {/* User */}
                 <div className="flex items-start gap-3 mb-3">
                   {user.profile_picture_url ? (
                     <img
@@ -270,13 +261,13 @@ const UserManagementPage = () => {
                   </div>
                 </div>
 
-                {/* Contact Info */}
+                {/* Contact */}
                 <div className="mb-3 space-y-1">
                   <p className="text-sm text-gray-900 ">{user.email}</p>
                   <p className="text-sm text-gray-600">{user.phone}</p>
                 </div>
 
-                {/* Role & Actions */}
+                {/* Role */}
                 <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-200">
                   <select
                     value={user.role}
@@ -303,7 +294,7 @@ const UserManagementPage = () => {
             ))}
           </div>
 
-          {/* Delete Confirmation Modal */}
+          {/* Delete  Modal */}
           {deleteModal.open && (
             <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
               <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-6 w-full max-w-md border border-gray-200">
@@ -329,7 +320,7 @@ const UserManagementPage = () => {
             </div>
           )}
 
-          {/* Added: Role Change Confirmation Modal */}
+          {/*Role Change Confirmation Modal */}
           {roleModal.open && (
             <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
               <div className="bg-[#FBFDF6] rounded-lg shadow-2xl p-6 w-full max-w-md border border-gray-200">
